@@ -28,8 +28,8 @@ class DishDetail extends Component {
                             </Card>
                         </div>
                         <div className="col-12 col-md-6">
-                            <h2>{this.props.dish.name}</h2>
-                            <h4>{this.props.dish.commenting}</h4>
+                            <h2 className="colortext">{this.props.dish.name}</h2>
+                            <h4>{this.props.dish.description}</h4>
                         </div>
                     </div>
                 </div>

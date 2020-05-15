@@ -34,7 +34,9 @@ export const dishesFailed = (errMess) => ({
 });
 
 export const loginUser = (user) => (dispatch) => {
-    return fetch(baseUrl + 'users/login', {
+
+    console.warn("User Information ", user);
+    return fetch(baseUrl + 'login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
@@ -49,13 +51,14 @@ export const loginUser = (user) => (dispatch) => {
         })
         .then(response => response.json())
         .then(response => {
+            console.warn("Here is the response: ", response.username);
             if (response.success) {
-                //Successful login
-                localStorage.setItem('token', response.token);
+                //             localStorage.setItem('token', response.token);
                 dispatch(loginSuccess(user));
             } else {
                 throw new Error('Error in logging information ' + response.status);
             }
+
         })
         .catch(error => {
             dispatch(loginFailed(error.message))
@@ -82,7 +85,9 @@ export const logoutSuccess = () => ({
 });
 
 export const userSignUp = (newUser) => (dispatch) => {
-    return fetch(baseUrl + 'users/signup', {
+
+    console.warn('param data: ', newUser);
+    return fetch(baseUrl + 'signup.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newUser)
@@ -90,10 +95,14 @@ export const userSignUp = (newUser) => (dispatch) => {
         .then(response => {
             if (response.ok) return response;
             else {
-                throw new Error('This login has been used, eroor ' + response.status);
+                throw new Error('This login has been used, error ' + response.status);
             }
         }, error => {
             throw error;
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.warn('response:', response)
         })
         .catch(error => {
             dispatch(signupFailure(error.message));
@@ -106,7 +115,7 @@ export const signupFailure = (errMessTwo) => ({
 });
 
 export const fetchComments = () => (dispatch) => {
-    return fetch(baseUrl + 'comments.php    ')
+    return fetch(baseUrl + 'comments.php')
         .then(response => {
             if (response.ok) return response;
             else {
@@ -134,43 +143,43 @@ export const commentsFailed = (errMess) => ({
     payload: errMess
 });
 
-// export const addNewComment = (newcom) => (dispatch) => {
-//     return fetch(baseUrl + 'comments', {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(newcom)
-//     })
-//         .then(response => {
-//             if (response.ok) return response;
-//             else {
-//                 throw new Error('Error occured ' + response.status);
-//             }
-//         }, error => {
-//             throw error;
-//         })
-//         .then(response => response.json())
-//         .then(comment => {
-//             dispatch(showNewComment(comment));
-//         })
-//         .catch(error => {
-//             dispatch(addingCommentFailed(error.message));
-//         })
-// }
+export const addNewComment = (newcom) => (dispatch) => {
+    console.warn("this is what Client sending here: " + newcom.author + " " + newcom.comment);
+    return fetch(baseUrl + 'addcomment.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newcom)
+    })
+        .then(response => {
+            if (response.ok) return response;
+            else throw new Error("Error occured code 300")
+        }, error => {
+            throw new Error("Error in communication")
+        })
+        .then(response => response.json())
+        .then(newcomment => {
+            console.warn("This is from the WEB SERVER: " + newcomment)
+            dispatch(newCommentAdded(newcomment));
+        })
+        .catch(error => {
+            dispatch(newCommentFailed(error.message));
+        });
+}
 
-// export const showNewComment = (newcom) => ({
+export const newCommentAdded = (newcomment) => ({
+    type: ActionTypes.ADD_NEW_COMMENT_SUCCESS,
+    payload: newcomment
+});
+
+export const newCommentFailed = (errMess) => ({
+    type: ActionTypes.ADD_NEW_COMMENT_FAILED,
+    payload: errMess
+});
+
+// export const addNewComment = (newcom) => ({
 //     type: ActionTypes.ADD_COMMENT,
 //     payload: newcom
 // });
-
-// export const addingCommentFailed = (errMess) => ({
-//     type: ActionTypes.ADD_COMMENT_FAILED,
-//     payload: errMess
-// });
-
-export const addNewComment = (newcom) => ({
-    type: ActionTypes.ADD_COMMENT,
-    payload: newcom
-});
 
 export const fetchDishComments = () => (dispatch) => {
     return fetch(baseUrl + 'dishcomments')
@@ -231,6 +240,35 @@ export const showNewDishComment = (newDishComment) => ({
 
 export const newDishCommentFailed = (errMess) => ({
     type: ActionTypes.NEW_DISH_COMMENT_FAILED,
+    payload: errMess
+});
+
+export const fetchStaff = () => (dispatch) => {
+    return fetch(baseUrl + 'staff.php')
+        .then(response => {
+            if (response.ok) return response;
+            else {
+                throw new Error('Error occured ' + response.status)
+            }
+        }, error => {
+            throw error;
+        })
+        .then(response => response.json())
+        .then(staff => {
+            dispatch(addStaffInformation(staff))
+        })
+        .catch(error => {
+            dispatch(addStaffFailed(error.message))
+        })
+}
+
+export const addStaffInformation = (staff) => ({
+    type: ActionTypes.ADD_STAFF_SUCCESS,
+    payload: staff
+});
+
+export const addStaffFailed = (errMess) => ({
+    type: ActionTypes.ADD_STAFF_FAILED,
     payload: errMess
 });
 

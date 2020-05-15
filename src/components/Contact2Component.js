@@ -10,7 +10,7 @@ class Contact extends Component {
     }
 
     handleSubmit(event) {
-        alert("Current State is: "+this.firstnamelar.value+", "+this.lastname.value+", "+this.email.value+", "+this.agree.checked+", "+this.contactType.value+", "+this.message.value);
+        alert("Current State is: " + this.firstnamelar.value + ", " + this.lastname.value + ", " + this.email.value + ", " + this.agree.checked + ", " + this.contactType.value + ", " + this.message.value);
         event.preventDefault();
     }
 
@@ -26,16 +26,13 @@ class Contact extends Component {
                     <div className="col-12 col-sm-4 offset-sm-1">
                         <h5>Our Address</h5>
                         <address>
-                            120 Daegu city<br />
-                            North West Region<br />
-                            Bukbu<br />
+                            Uzbekistan, Navoi city<br />
+                            Ibn Sino Street<br />
+                            20-71<br />
                             <i className="fa fa-phone"></i>: 010 2234 0440 <br />
                             <i className="fa fa-fax"></i>: 010 2234 0440 <br />
                             <i className="fa fa-envelope"></i>: <a href="mailto:bekzodsanakulov89@gmail.com">bekzodsanakulov89@gmail.com</a>
                         </address>
-                    </div>
-                    <div className="col-12 col-sm-6 offset-sm-1">
-                        <h5>Map of our Location</h5>
                     </div>
                     <div className="col-12 col-sm-11 offset-sm-1">
                         <div className="btn-group" role="group">

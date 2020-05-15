@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Loading from './LoadingComponent';
@@ -17,65 +17,72 @@ function RenderMenuItem({ eles }) {
     );
 }
 
-function Menu(props) {
+class Menu extends Component {
 
-    const menu = props.dishlar.dishes.map((ele) => {
-        return (
-            <div className="col-12 col-md-6">
-                <RenderMenuItem eles={ele} />
-            </div>);
-    });
+    constructor(props) {
+        super(props);
+    }
+ 
+    render() {
+        const menu = this.props.dishlar.dishes.map((ele) => {
+            return (
+                <div className="col-12 col-md-6">
+                    <RenderMenuItem eles={ele} />
+                </div>);
+        });
 
-    if (props.dishlar.isLoading) {
-        return (
-            <div>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12 col-md-4 offset-5">
-                            <Loading />
+        if (this.props.dishlar.isLoading) {
+            return (
+                <div>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12 col-md-4 offset-5">
+                                <Loading />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            );
+        }
+        else if (this.props.dishlar.errMess) {
+            return (
+                <div>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12 col-md-4 offset-5">
+                                <h4>{this.props.dishlar.errMess}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        else {
+            return (
+                <div>
+                    <div className="container">
+                        <div className="row">
+                            <Breadcrumb>
+                                <BreadcrumbItem><Link to="aboutus">About us</Link></BreadcrumbItem>
+                                <BreadcrumbItem active>Menu</BreadcrumbItem>
+                            </Breadcrumb>
+                            <div className="col-12">
+                                <h3>Menu</h3>
+                                <hr />
+                            </div>
+                        </div>
+                        <div className="row">
+                            {menu}
                         </div>
                     </div>
                 </div>
 
-            </div>
-        );
-    }
-    else if (props.dishlar.errMess) {
-        return (
-            <div>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12 col-md-4 offset-5">
-                            <h4>{props.dishlar.errMess}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-    else {
-        return (
-            <div>
-                <div className="container">
-                    <div className="row">
-                        <Breadcrumb>
-                            <BreadcrumbItem><Link to="home">Home</Link></BreadcrumbItem>
-                            <BreadcrumbItem active>Menu</BreadcrumbItem>
-                        </Breadcrumb>
-                        <div className="col-12">
-                            <h3>Menu</h3>
-                            <hr />
-                        </div>
-                    </div>
-                    <div className="row">
-                        {menu}
-                    </div>
-                </div>
-            </div>
+            );
+        }
 
-        );
     }
+
 
 }
-
 export default Menu;

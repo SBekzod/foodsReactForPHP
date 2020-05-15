@@ -162,7 +162,7 @@ class Header extends Component {
                   innerRef={(input) => this.firstname = input} />
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="code">Write your Surname</Label>
+                <Label htmlFor="code">Write your Password</Label>
                 <Input type="password" id="code" name="code"
                   innerRef={(input) => this.code = input} />
               </FormGroup>

@@ -9,7 +9,7 @@ import Contact from './ContactComponent';
 import Contact2 from './Contact2Component'
 import Home from './HomeCom';
 import { connect } from 'react-redux';
-import { fetchDishes, loginUser, logoutUser, userSignUp, fetchComments, addNewComment, fetchDishComments, addNewDishComment } from '../redux/ActionCreators';
+import { fetchDishes, loginUser, logoutUser, fetchStaff, userSignUp, fetchComments, addNewComment, fetchDishComments, addNewDishComment } from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import DishDetail from './DishDetailComponent';
 
@@ -18,13 +18,15 @@ const mapStateToProps = state => ({
     dishlar: state.dishlar,
     comments: state.comments,
     auth: state.auth,
-    dishComments: state.dishComments
+    dishComments: state.dishComments,
+    staff: state.staff
 });
 
 const mapDispatchToProps = dispatch => ({
     fetchDishes: () => dispatch(fetchDishes()),
     fetchComments: () => dispatch(fetchComments()),
     fetchDishComments: () => dispatch(fetchDishComments()),
+    fetchStaff: () => dispatch(fetchStaff()),
     loginUser: (user) => dispatch(loginUser(user)),
     logoutUser: () => dispatch(logoutUser()),
     userSignUp: (newUser) => dispatch(userSignUp(newUser)),
@@ -44,14 +46,14 @@ class Main extends Component {
         this.props.fetchDishes();
         this.props.fetchComments();
         this.props.fetchDishComments();
+        this.props.fetchStaff();
     }
 
     render() {
 
         const ChosenItem = ({ match }) => {
             return (
-                <DishDetail dish={this.props.dishlar.dishes[0]} />
-                // <DishDetail dish={this.props.dishlar.dishes.filter((ele) => ele.id === parseInt(match.params.id, 10))[0]} />
+                <DishDetail dish={this.props.dishlar.dishes.filter((ele) => ele.dishes_id == parseInt(match.params.id, 10))[0]} />
             );
         }
 
@@ -62,12 +64,12 @@ class Main extends Component {
                 <TransitionGroup>
                     <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
                         <Switch location={this.props.location}>
-                            <Route path="/staff" component={Staff} />
+                            <Route path="/staff" component={() => <Staff staff={this.props.staff} />} />
+                            <Route path="/aboutus" component={() => <Contact comments={this.props.comments} addNewComment={this.props.addNewComment} auth={this.props.auth} />} />
                             <Route path="/menu/:id" component={ChosenItem} />
                             <Route exact path="/menu" component={() => <Menu dishlar={this.props.dishlar} />} />
                             <Route path="/home" component={() => <Home dishlar={this.props.dishlar} dishComments={this.props.dishComments} addNewDishComment={this.props.addNewDishComment} />} />
                             <Route path="/form" component={Forms} />
-                            <Route path="/aboutus" component={() => <Contact comments={this.props.comments} addNewComment={this.props.addNewComment} />} />
                             <Route path="/contact2" component={Contact2} />
                             <Redirect to="/menu" />
                         </Switch>
