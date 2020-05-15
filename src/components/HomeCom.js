@@ -7,7 +7,7 @@ import {
 function RenderCard({ item }) {
     return (
         <div>
-            <Card key={item.id}>
+            <Card key={item.dishes_id}>
                 <CardImg src={item.image} alt={item.name} />
                 <CardBody>
                     <CardTitle>{item.name}</CardTitle>

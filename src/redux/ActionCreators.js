@@ -5,7 +5,7 @@ import { DISHES } from '../shared/dishes';
 export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading());
 
-    return fetch(baseUrl + 'dishes')
+    return fetch(baseUrl + 'dishes.php')
         .then(response => {
             if (response.ok) return response;
             else {
@@ -106,7 +106,7 @@ export const signupFailure = (errMessTwo) => ({
 });
 
 export const fetchComments = () => (dispatch) => {
-    return fetch(baseUrl + 'comments')
+    return fetch(baseUrl + 'comments.php    ')
         .then(response => {
             if (response.ok) return response;
             else {
