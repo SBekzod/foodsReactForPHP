@@ -10,7 +10,8 @@ class Contact extends Component {
     }
 
     handleSubmit(event) {
-        alert("Current State is: " + this.firstnamelar.value + ", " + this.lastname.value + ", " + this.email.value + ", " + this.agree.checked + ", " + this.contactType.value + ", " + this.message.value);
+        // alert("Current State is: " + this.firstnamelar.value + ", " + this.lastname.value + ", " + this.email.value + ", " + this.agree.checked + ", " + this.contactType.value + ", " + this.message.value);
+        this.props.addNewFeedback({ firstname: this.firstnamelar.value, lastname: this.lastname.value, email: this.email.value, agree: this.agree.checked, contactType: this.contactType.value, message: this.message.value });
         event.preventDefault();
     }
 

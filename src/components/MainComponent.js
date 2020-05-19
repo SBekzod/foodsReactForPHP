@@ -9,9 +9,10 @@ import Contact from './ContactComponent';
 import Contact2 from './Contact2Component'
 import Home from './HomeCom';
 import { connect } from 'react-redux';
-import { fetchDishes, loginUser, logoutUser, fetchStaff, userSignUp, fetchComments, addNewComment, fetchDishComments, addNewDishComment } from '../redux/ActionCreators';
+import { fetchDishes, loginUser, fetchFeedbacks, logoutUser, fetchStaff, userSignUp, fetchComments, addNewComment, fetchDishComments, addNewDishComment, addNewFeedback } from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import DishDetail from './DishDetailComponent';
+import Feedbacks from './Feedbacks';
 
 
 const mapStateToProps = state => ({
@@ -19,7 +20,8 @@ const mapStateToProps = state => ({
     comments: state.comments,
     auth: state.auth,
     dishComments: state.dishComments,
-    staff: state.staff
+    staff: state.staff,
+    feedbacks: state.feedbacks
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -31,7 +33,9 @@ const mapDispatchToProps = dispatch => ({
     logoutUser: () => dispatch(logoutUser()),
     userSignUp: (newUser) => dispatch(userSignUp(newUser)),
     addNewComment: (newcom) => dispatch(addNewComment(newcom)),
-    addNewDishComment: (newDishCom) => dispatch(addNewDishComment(newDishCom))
+    addNewDishComment: (newDishCom) => dispatch(addNewDishComment(newDishCom)),
+    fetchFeedbacks: () => dispatch(fetchFeedbacks()),
+    addNewFeedback: (newfeed) => dispatch(addNewFeedback(newfeed))
 });
 
 
@@ -47,6 +51,7 @@ class Main extends Component {
         this.props.fetchComments();
         this.props.fetchDishComments();
         this.props.fetchStaff();
+        this.props.fetchFeedbacks();
     }
 
     render() {
@@ -70,7 +75,8 @@ class Main extends Component {
                             <Route exact path="/menu" component={() => <Menu dishlar={this.props.dishlar} />} />
                             <Route path="/home" component={() => <Home dishlar={this.props.dishlar} dishComments={this.props.dishComments} addNewDishComment={this.props.addNewDishComment} />} />
                             <Route path="/form" component={Forms} />
-                            <Route path="/contact2" component={Contact2} />
+                            <Route path="/contact2" component={ ()=> <Contact2 addNewFeedback={this.props.addNewFeedback} />} />
+                            <Route path="/feedback" component={ () => <Feedbacks feedbacks={this.props.feedbacks} />} />
                             <Redirect to="/menu" />
                         </Switch>
                     </CSSTransition>

@@ -272,4 +272,67 @@ export const addStaffFailed = (errMess) => ({
     payload: errMess
 });
 
+export const fetchFeedbacks = () => (dispatch) => {
+    return fetch(baseUrl + 'feedbacks.php')
+        .then(response => {
+            if (response.ok) return response;
+            else {
+                throw new Error('Error occured ' + response.status)
+            }
+        }, error => {
+            throw error;
+        })
+        .then(response => response.json())
+        .then(feedbacks => {
+            dispatch(feedbacksAdded(feedbacks))
+        })
+        .catch(error => {
+            dispatch(feedbacksFailed(error.message))
+        })
+}
+
+export const feedbacksAdded = (feedbacks) => ({
+    type: ActionTypes.FEEDBACKS_ADDED,
+    payload: feedbacks
+});
+
+export const feedbacksFailed = (errMess) => ({
+    type: ActionTypes.FEEDBACKS_FAILED,
+    payload: errMess
+});
+
+
+export const addNewFeedback = (newfeed) => (dispatch) => {
+    console.warn("this is what Client sending here: " + newfeed.firstname);
+    return fetch(baseUrl + 'addfeedback.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newfeed)
+    })
+        .then(response => {
+            if (response.ok) return response;
+            else throw new Error("Error occured code 300")
+        }, error => {
+            throw new Error("Error in communication")
+        })
+        .then(response => response.json())
+        .then(newfeed => {
+            console.warn("This is from the WEB SERVER: " + newfeed)
+            dispatch(newCommentAdded(newfeed));
+        })
+        .catch(error => {
+            dispatch(newCommentFailed(error.message));
+        });
+}
+
+export const newFeedbackAdded = (newfeed) => ({
+    type: ActionTypes.ADD_NEW_FEEDBACK_SUCCESS,
+    payload: newfeed
+});
+
+export const newFeedbackFailed = (errMess) => ({
+    type: ActionTypes.ADD_NEW_FEEDBACK_FAILED,
+    payload: errMess
+});
+
 

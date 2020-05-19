@@ -6,6 +6,7 @@ import { RdishComment } from './dishComments';
 import { Rstaff } from './staff';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import { Rfeedbacks } from './feedbacks';
 
 
 export const ConfigureStore = () => {
@@ -15,7 +16,8 @@ export const ConfigureStore = () => {
             comments: Rcomments,
             auth: Ruser,
             dishComments: RdishComment,
-            staff: Rstaff
+            staff: Rstaff,
+            feedbacks: Rfeedbacks
         }),
         applyMiddleware(thunk, logger)
     );

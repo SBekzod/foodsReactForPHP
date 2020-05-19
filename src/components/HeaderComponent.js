@@ -95,6 +95,18 @@ class Header extends Component {
                     <span className="fa fa-address-card fa-lg"></span> Contact Us
                   </NavLink>
                 </NavItem>
+                {this.props.auth.isAuthenticated ?
+                  this.props.auth.user.username == "admin" ?
+                    <NavItem>
+                      <NavLink className="nav-link" to="/feedback">
+                        <span class="fa fa-users" aria-hidden="true"></span> Feedbacks
+                      </NavLink>
+                    </NavItem>
+                    :
+                    <div></div>
+                  :
+                  <div></div>
+                }
               </Nav>
 
               <Nav className="ml-auto" navbar>
